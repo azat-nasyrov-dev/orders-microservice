@@ -16,13 +16,13 @@ export class ProductEntity {
   @Column()
   name: string;
 
-  @Column({ unique: true })
-  email: string;
+  @Column('decimal', { precision: 10, scale: 2 })
+  price: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ name: 'updatedAt' })
   updatedAt: Date;
 
   @OneToMany(() => OrderEntity, (order) => order.product)
