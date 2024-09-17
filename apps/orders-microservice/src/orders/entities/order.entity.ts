@@ -29,9 +29,9 @@ export class OrderEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.orders)
+  @ManyToOne(() => UserEntity, (user) => user.orders, { eager: true })
   user: UserEntity;
 
-  @ManyToOne(() => ProductEntity, (product) => product.orders)
+  @ManyToOne(() => ProductEntity, (product) => product.orders, { eager: true })
   product: ProductEntity;
 }
