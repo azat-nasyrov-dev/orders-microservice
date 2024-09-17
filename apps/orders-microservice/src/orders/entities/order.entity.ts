@@ -2,9 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
+import { UserEntity } from './user.entity';
+import { ProductEntity } from './product.entity';
 
 @Entity('orders')
 export class OrderEntity {
@@ -25,4 +28,10 @@ export class OrderEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @ManyToOne(() => UserEntity, (user) => user.orders)
+  user: UserEntity;
+
+  @ManyToOne(() => ProductEntity, (product) => product.orders)
+  product: ProductEntity;
 }
