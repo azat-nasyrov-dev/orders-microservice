@@ -21,6 +21,8 @@ services:
     depends_on:
       - orders-db
       - rabbitmq
+    ports:
+      - "3000:3000"
 
   notifications-microservice:
     build:
