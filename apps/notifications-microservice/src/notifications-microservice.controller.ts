@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
-import { NotificationsMicroserviceService } from './notifications-microservice.service';
+import { Controller, Logger } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
 
 @Controller()
 export class NotificationsMicroserviceController {
-  constructor(private readonly notificationsMicroserviceService: NotificationsMicroserviceService) {}
+  private readonly logger = new Logger(NotificationsMicroserviceController.name);
 
-  @Get()
-  getHello(): string {
-    return this.notificationsMicroserviceService.getHello();
+  @EventPattern('order.created')
+  public async handleOrderCreated(data: Record<string, unknown>) {
+    this.logger.debug(`Received new "order.created" event: ${JSON.stringify(data)}`);
+  }
+
+  @EventPattern('order.updated')
+  public async handleOrderUpdated(data: Record<string, unknown>) {
+    this.logger.debug(`Received new "order.updated" event: ${JSON.stringify(data)}`);
   }
 }
