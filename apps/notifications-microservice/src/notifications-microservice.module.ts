@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { NotificationsMicroserviceController } from './notifications-microservice.controller';
 import { NotificationsMicroserviceService } from './notifications-microservice.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    HealthModule,
   ],
   controllers: [NotificationsMicroserviceController],
   providers: [NotificationsMicroserviceService],
