@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  orders-microservice:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - APP_NAME=orders-microservice
+    command: npm run start:dev -- orders-microservice
+    environment:
+      - POSTGRES_HOST=orders-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=orders
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    volumes:
+      - ./libs:/usr/src/app/libs
+      - ./apps/orders-microservice:/usr/src/app/apps/orders-microservice
+    depends_on:
+      - orders-db
+      - rabbitmq
+
+  notifications-microservice:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - APP_NAME=notifications-microservice
+    command: npm run start:dev -- notifications-microservice
+    environment:
+      - POSTGRES_HOST=orders-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=orders
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    volumes:
+      - ./libs:/usr/src/app/libs
+      - ./apps/notifications-microservice:/usr/src/app/apps/notifications-microservice
+    depends_on:
+      - orders-db
+      - rabbitmq
+
+  orders-db:
+    image: postgres:13.2-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=orders
+    ports:
+      - "5432:5432"
+
+  rabbitmq:
+    image: rabbitmq:3-management

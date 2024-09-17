@@ -3,6 +3,6 @@ import { NotificationsMicroserviceModule } from './notifications-microservice.mo
 
 async function bootstrap() {
   const app = await NestFactory.create(NotificationsMicroserviceModule);
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();
